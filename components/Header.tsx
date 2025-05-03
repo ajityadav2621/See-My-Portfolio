@@ -58,7 +58,7 @@ const Header = () => {
             {/* Social Icons */}
             <div className="flex items-center space-x-6 pl-10">
               <motion.a
-                href="https://github.com/AlexAjit"
+                href="https://github.com/ajityadav2621"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
@@ -181,7 +181,7 @@ const Header = () => {
                 {/* Social Media Icons */}
                 <div className="flex justify-center items-center space-x-8">
                   <a
-                    href="https://github.com/AlexAjit"
+                    href="https://github.com/ajityadav2621"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-white transition-colors duration-200"
