@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { Download, X } from "lucide-react";
+// import Link from "next/link";
+import { Download, ExternalLink, FileText, X } from "lucide-react";
 
 const HeroSection = () => {
   const [showResume, setShowResume] = useState(false);
@@ -95,6 +95,13 @@ const HeroSection = () => {
             repeat={Infinity}
           />
         </div>
+        {/* <button
+          onClick={() => setShowResume(true)}
+          className="inline-block bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg py-3 px-6 font-medium hover:opacity-90 transition-all duration-300"
+        >
+          View Resume
+        </button> */}
+
         <button
           onClick={() => setShowResume(true)}
           className="inline-block bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg py-3 px-6 font-medium hover:opacity-90 transition-all duration-300"
@@ -102,7 +109,7 @@ const HeroSection = () => {
           View Resume
         </button>
       </motion.div>
-      
+
       {/* Resume Viewer Modal */}
       <AnimatePresence>
         {showResume && (
@@ -122,34 +129,81 @@ const HeroSection = () => {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between bg-gradient-to-r from-teal-500 to-teal-700 text-white p-4">
-                <h2 className="text-xl font-semibold">Resume - Ajit Yadav</h2>
+              <div className="flex items-center justify-between bg-gradient-to-r from-teal-500 to-teal-700 text-white p-3 sm:p-4">
+                <h2 className="text-lg sm:text-xl font-semibold">
+                  Resume - Ajit Yadav
+                </h2>
                 <div className="flex items-center gap-2">
-                  <Link
+                  <a
                     href="/ResumeAjitYadav.pdf"
                     download
-                    className="flex items-center gap-2 bg-white/20 hover:bg-white/30 rounded-lg px-4 py-2 transition-all duration-200"
+                    className="flex items-center gap-2 bg-white/20 hover:bg-white/30 rounded-lg px-3 py-2 transition-all duration-200"
                   >
                     <Download size={18} />
-                    <span className="hidden sm:inline">Download</span>
-                  </Link>
+                    <span className="hidden sm:inline text-sm">Download</span>
+                  </a>
                   <button
                     onClick={() => setShowResume(false)}
                     className="bg-white/20 hover:bg-white/30 rounded-lg p-2 transition-all duration-200"
                     aria-label="Close"
                   >
-                    <X size={24} />
+                    <X size={20} />
                   </button>
                 </div>
               </div>
-
               {/* PDF Viewer */}
-              <div className="w-full h-[calc(100%-4rem)] overflow-auto bg-gray-100">
-                <iframe
-                  src="/ResumeAjitYadav.pdf#toolbar=0"
-                  className="w-full h-full"
-                  title="Resume PDF Viewer"
-                />
+              <div className="w-full h-[calc(100%-3.5rem)] sm:h-[calc(100%-4rem)] overflow-auto bg-gray-100">
+                {/* Desktop PDF Viewer */}
+                <div className="hidden sm:block w-full h-full">
+                  <object
+                    data="/ResumeAjitYadav.pdf#toolbar=0&navpanes=0&scrollbar=1&zoom=85"
+                    type="application/pdf"
+                    className="w-full h-full"
+                  >
+                    <div className="flex flex-col items-center justify-center h-full p-6 text-center">
+                      <FileText size={64} className="text-gray-400 mb-4" />
+                      <p className="text-gray-700 mb-4 text-lg font-medium">
+                        Unable to display PDF
+                      </p>
+                      <a
+                        href="/ResumeAjitYadav.pdf"
+                        download
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg px-6 py-3 font-medium hover:opacity-90 transition-all duration-300"
+                      >
+                        <Download size={20} />
+                        Download PDF
+                      </a>
+                    </div>
+                  </object>
+                </div>
+
+                {/* Mobile Fallback */}
+                <div className="sm:hidden flex flex-col items-center justify-center h-full p-6 text-center bg-white">
+                  <FileText size={64} className="text-teal-500 mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    View Resume
+                  </h3>
+                  <p className="text-gray-600 mb-6 text-sm">
+                    Choose an option to view the resume
+                  </p>
+                  <a
+                    href="/ResumeAjitYadav.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg px-6 py-3 font-medium hover:opacity-90 transition-all duration-300 mb-3 w-full max-w-xs justify-center"
+                  >
+                    <ExternalLink size={20} />
+                    Open in Browser
+                  </a>
+                  <a
+                    href="/ResumeAjitYadav.pdf"
+                    download
+                    className="inline-flex items-center gap-2 bg-gray-700 text-white rounded-lg px-6 py-3 font-medium hover:bg-gray-600 transition-all duration-300 w-full max-w-xs justify-center"
+                  >
+                    <Download size={20} />
+                    Download PDF
+                  </a>
+                </div>
               </div>
             </motion.div>
           </motion.div>
