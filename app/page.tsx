@@ -5,6 +5,8 @@ import ProjectsSection from "../components/ProjectsSection";
 import { ContactSection } from "../components/ContactSection";
 import CertificationSlider from "../components/CertificationSlider";
 import AvatarChat from "../components/AvatarChat";
+// import ExperienceMindMap from "../components/ExperienceMindMap";
+
 
 export default function Home() {
   return (
@@ -13,6 +15,7 @@ export default function Home() {
       <main>
         <HeroSection />
         <ProjectsSection />
+        {/* <ExperienceMindMap /> */}
         <CertificationSlider />
         <ContactSection />
       </main>

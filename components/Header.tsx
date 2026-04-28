@@ -6,25 +6,50 @@ import { Github, Gitlab, Linkedin, Menu, Twitter, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Handle scroll event to change header appearance
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setScrolled(window.scrollY > 20);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
+  const [showHeader, setShowHeader] = useState(true);
+
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+
+    // adjust this value based on your hero height
+    if (scrollY > 500) {
+      setShowHeader(false);
+    } else {
+      setShowHeader(true);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   return (
-    <header
-      className={`fixed top-6 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "py-6" : "py-6"
-      }`}
-    >
+    // <header
+    //   className="fixed top-0 left-0 w-full z-50"
+    // >
+    <motion.header
+  initial={{ y: 0, opacity: 1 }}
+  animate={{
+    y: showHeader ? 0 : -120,
+    opacity: showHeader ? 1 : 0,
+  }}
+  transition={{ duration: 0.3 }}
+  className="fixed top-6 left-0 w-full z-50"
+>
       <div
         className={`hidden sm:block container max-w-4xl mx-auto px-4 md:px-6 sm:px-6 sm:py-1 rounded-2xl transition-all duration-300 ${
           scrolled ? "bg-black/40 shadow-lg" : "bg-black/40"
@@ -226,7 +251,7 @@ const Header = () => {
           </div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 };
 
