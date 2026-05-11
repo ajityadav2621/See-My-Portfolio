@@ -135,7 +135,7 @@ const HeroSection = () => {
                 </h2>
                 <div className="flex items-center gap-2">
                   <a
-                    href="/ResumeAjitYadav.pdf"
+                    href="/AjitDevResume.pdf"
                     download
                     className="flex items-center gap-2 bg-white/20 hover:bg-white/30 rounded-lg px-3 py-2 transition-all duration-200"
                   >
@@ -156,7 +156,7 @@ const HeroSection = () => {
                 {/* Desktop PDF Viewer */}
                 <div className="hidden sm:block w-full h-full">
                   <object
-                    data="/ResumeAjitYadav.pdf#toolbar=0&navpanes=0&scrollbar=1&zoom=85"
+                    data="/AjitDevResume.pdf#toolbar=0&navpanes=0&scrollbar=1&zoom=85"
                     type="application/pdf"
                     className="w-full h-full"
                   >
@@ -166,7 +166,7 @@ const HeroSection = () => {
                         Unable to display PDF
                       </p>
                       <a
-                        href="/ResumeAjitYadav.pdf"
+                        href="/AjitDevResume.pdf"
                         download
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg px-6 py-3 font-medium hover:opacity-90 transition-all duration-300"
                       >
@@ -187,7 +187,7 @@ const HeroSection = () => {
                     Choose an option to view the resume
                   </p>
                   <a
-                    href="/ResumeAjitYadav.pdf"
+                    href="/AjitDevResume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg px-6 py-3 font-medium hover:opacity-90 transition-all duration-300 mb-3 w-full max-w-xs justify-center"
@@ -196,7 +196,7 @@ const HeroSection = () => {
                     Open in Browser
                   </a>
                   <a
-                    href="/ResumeAjitYadav.pdf"
+                    href="/AjitDevResume.pdf"
                     download
                     className="inline-flex items-center gap-2 bg-gray-700 text-white rounded-lg px-6 py-3 font-medium hover:bg-gray-600 transition-all duration-300 w-full max-w-xs justify-center"
                   >
