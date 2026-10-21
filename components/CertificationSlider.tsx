@@ -216,12 +216,15 @@ const CertificationsSection: React.FC = () => {
   };
 
   return (
-    <section className="bg-black text-white min-h-screen p-4 md:p-6">
+    <section
+      className="min-h-screen p-4 md:p-6 transition-colors duration-300"
+      style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-b from-[#1E1E1E] to-[#121212] rounded-lg">
+        <div className="panel-gradient rounded-xl">
           {/* Header with category buttons */}
-          <div className="p-4 flex flex-wrap items-center justify-between border-b border-[#333]">
-            <h2 className="text-2xl font-bold">Certifications</h2>
+          <div className="p-4 flex flex-wrap items-center justify-between" style={{ borderBottom: "1px solid var(--panel-border)" }}>
+            <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Certifications</h2>
 
             {/* Category buttons in top-right */}
             <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
@@ -229,11 +232,11 @@ const CertificationsSection: React.FC = () => {
                 <motion.button
                   key={category}
                   onClick={() => handleCategoryClick(category)}
-                  className={`px-3 py-1 rounded-md text-sm transition-colors
+                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors
                             ${
                               activeCategory === category
-                                ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white font-medium"
-                                : "bg-[#222] text-gray-300 hover:text-white hover:bg-[#282828]"
+                                ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
+                                : "chip"
                             }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
@@ -249,18 +252,23 @@ const CertificationsSection: React.FC = () => {
               categoryFilteredCertifications.map((cert) => (
                 <motion.button
                   key={cert.title}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-md bg-[#1A1A1A] text-sm hover:bg-[#222] transition-colors border border-transparent
+                  className={`btn-secondary flex items-center gap-2 px-3 py-2 rounded-lg text-sm
                   ${
                     selectedCertification?.title === cert.title
-                      ? "border-teal-700 bg-[#222]"
+                      ? "shadow-[0_0_0_1px_var(--accent-border)]"
                       : ""
                   }`}
+                  style={
+                    selectedCertification?.title === cert.title
+                      ? { borderColor: "var(--accent-border)", background: "var(--accent-subtle)" }
+                      : undefined
+                  }
                   onClick={() => setSelectedCertification(cert)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   {/* Small certificate image/icon */}
-                  <div className="w-6 h-6 rounded-full bg-[#333] overflow-hidden flex-shrink-0">
+                  <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0 chip">
                     {cert.imageUrl ? (
                       <img
                         src={cert.imageUrl}
@@ -269,7 +277,7 @@ const CertificationsSection: React.FC = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-xs font-bold text-gray-400">
+                        <div className="text-xs font-bold" style={{ color: "var(--text-muted)" }}>
                           {cert.title.charAt(0)}
                         </div>
                       </div>
@@ -282,7 +290,7 @@ const CertificationsSection: React.FC = () => {
               ))
             ) : (
               <div className="w-full flex items-center justify-center h-32">
-                <p className="text-gray-400">
+                <p style={{ color: "var(--text-muted)" }}>
                   No certifications found for this category.
                 </p>
               </div>
@@ -292,7 +300,8 @@ const CertificationsSection: React.FC = () => {
           {/* Detailed view of selected certification */}
           {selectedCertification && (
             <motion.div
-              className="p-6 border-t border-[#333] mt-2"
+              className="p-6 mt-2"
+              style={{ borderTop: "1px solid var(--panel-border)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -300,7 +309,7 @@ const CertificationsSection: React.FC = () => {
             >
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Selected certification image - larger view */}
-                <div className="w-full md:w-64 h-64 bg-[#333] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
+                <div className="w-full md:w-64 h-64 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden chip">
                   {selectedCertification.imageUrl ? (
                     <img
                       src={selectedCertification.imageUrl}
@@ -308,7 +317,7 @@ const CertificationsSection: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="text-6xl font-bold text-gray-300">
+                    <div className="text-6xl font-bold" style={{ color: "var(--text-secondary)" }}>
                       {selectedCertification.title.charAt(0)}
                     </div>
                   )}
@@ -317,27 +326,27 @@ const CertificationsSection: React.FC = () => {
                 {/* Selected certification info */}
                 <div className="flex-1">
                   <div className="mb-4">
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
                       {selectedCertification.title}
                     </h1>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs" style={{ color: "var(--text-muted)" }}>
                         Issuing Organization
                       </span>
-                      <p className="text-white">
+                      <p style={{ color: "var(--text-primary)" }}>
                         {selectedCertification.issuer}
                       </p>
                     </div>
                     <div>
-                      <span className="text-xs text-gray-400">Date</span>
-                      <p className="text-white">{selectedCertification.date}</p>
+                      <span className="text-xs" style={{ color: "var(--text-muted)" }}>Date</span>
+                      <p style={{ color: "var(--text-primary)" }}>{selectedCertification.date}</p>
                     </div>
                   </div>
 
-                  <p className="text-gray-300 mb-6">
+                  <p className="mb-6" style={{ color: "var(--text-secondary)" }}>
                     {selectedCertification.description}
                   </p>
 
@@ -356,7 +365,7 @@ const CertificationsSection: React.FC = () => {
                       </motion.a>
                     )}
                     <motion.button
-                      className="flex items-center gap-2 bg-[#333] hover:bg-[#444] text-white px-4 py-2 rounded-full transition-colors"
+                      className="btn-secondary flex items-center gap-2 px-4 py-2 rounded-full font-medium"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >

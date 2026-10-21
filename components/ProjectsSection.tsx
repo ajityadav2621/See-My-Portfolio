@@ -49,6 +49,7 @@ const ProjectsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   
   const projects: Project[] = [
     {
@@ -162,32 +163,50 @@ const ProjectsSection: React.FC = () => {
     ? projects 
     : projects.filter(project => project.category === activeCategory);
 
+  const projectsPerPage = 4;
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / projectsPerPage));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedProjects = filteredProjects.slice(
+    (safePage - 1) * projectsPerPage,
+    safePage * projectsPerPage
+  );
+
+  const goToPage = (page: number) => {
+    setCurrentPage(Math.min(Math.max(1, page), totalPages));
+  };
+
+  const handleCategorySelect = (category: string) => {
+    setActiveCategory(category);
+    setCurrentPage(1);
+    setShowDetails(false);
+    setSelectedProject(null);
+  };
+
   const handleBackToList = () => {
     setShowDetails(false);
     setSelectedProject(null);
   };
 
   return (
-    <section className="bg-black text-white min-h-screen p-4 md:p-6">
+    <section
+      className="min-h-screen p-4 md:p-6 transition-colors duration-300"
+      style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="md:col-span-1 bg-[#121212] rounded-lg p-4">
+          <div className="md:col-span-1 panel rounded-xl p-4">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-4">Projects</h2>
+              <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>Projects</h2>
               <div className="space-y-2">
                 {categories.map((category) => (
                   <motion.button
                     key={category}
-                    onClick={() => {
-                      setActiveCategory(category);
-                      setShowDetails(false);
-                      setSelectedProject(null);
-                    }}
-                    className={`block w-full text-left px-4 py-2 rounded-md text-sm transition-colors
-                              ${activeCategory === category 
-                                ? 'bg-gradient-to-r from-teal-500 to-teal-700 text-white font-medium' 
-                                : 'text-gray-300 hover:text-white hover:bg-[#282828]'}`}
+                    onClick={() => handleCategorySelect(category)}
+                    className={`block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors
+                              ${activeCategory === category
+                                ? 'bg-gradient-to-r from-teal-500 to-teal-700 text-white'
+                                : 'nav-item'}`}
                     whileHover={{ x: 4 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -199,7 +218,7 @@ const ProjectsSection: React.FC = () => {
           </div>
           
           {/* Main Content */}
-          <div className="md:col-span-3 bg-gradient-to-b from-[#1E1E1E] to-[#121212] rounded-lg">
+          <div className="md:col-span-3 panel-gradient rounded-xl">
             {showDetails && selectedProject ? (
               // Project Details View
               <motion.div 
@@ -211,7 +230,7 @@ const ProjectsSection: React.FC = () => {
                 {/* Back Button */}
                 <motion.button
                   onClick={handleBackToList}
-                  className="flex items-center text-gray-400 hover:text-white mb-6"
+                  className="link-muted flex items-center mb-6"
                   whileHover={{ x: -4 }}
                 >
                   <ArrowLeft size={18} className="mr-2" />
@@ -220,27 +239,27 @@ const ProjectsSection: React.FC = () => {
                 
                 <div className="flex flex-col md:flex-row gap-6">
                   {/* Project Image */}
-                  <div className="w-full md:w-64 h-64 bg-[#333] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
+                  <div className="w-full md:w-64 h-64 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden chip">
                     {selectedProject.imageUrl ? 
                       <img src={selectedProject.imageUrl} alt={selectedProject.title} className="w-full h-full object-cover" /> :
-                      <div className="text-6xl font-bold text-gray-300">{selectedProject.title.charAt(0)}</div>
+                      <div className="text-6xl font-bold" style={{ color: "var(--text-secondary)" }}>{selectedProject.title.charAt(0)}</div>
                     }
                   </div>
                   
                   {/* Project Info */}
                   <div className="flex-1">
                     <div className="mb-4">
-                      <span className="text-sm text-[#0F766E] font-medium">{selectedProject.category}</span>
-                      <h1 className="text-4xl font-bold mt-1">{selectedProject.title}</h1>
+                      <span className="text-sm font-medium" style={{ color: "var(--accent)" }}>{selectedProject.category}</span>
+                      <h1 className="text-4xl font-bold mt-1" style={{ color: "var(--text-primary)" }}>{selectedProject.title}</h1>
                     </div>
                     
-                    <p className="text-gray-300 mb-6">{selectedProject.description}</p>
+                    <p className="mb-6" style={{ color: "var(--text-secondary)" }}>{selectedProject.description}</p>
                     
                     <div className="mb-6">
-                      <h3 className="text-lg font-medium mb-2">Technologies</h3>
+                      <h3 className="text-lg font-medium mb-2" style={{ color: "var(--text-primary)" }}>Technologies</h3>
                       <div className="flex flex-wrap gap-2">
                         {selectedProject.technologies.map((tech, idx) => (
-                          <span key={idx} className="text-sm text-gray-200 px-3 py-1 bg-[#333] rounded-full">
+                          <span key={idx} className="chip text-sm px-3 py-1 rounded-full font-medium">
                             {tech}
                           </span>
                         ))}
@@ -252,7 +271,7 @@ const ProjectsSection: React.FC = () => {
                         href={selectedProject.githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 bg-[#333] hover:bg-[#444] text-white px-4 py-2 rounded-full transition-colors"
+                        className="btn-secondary flex items-center gap-2 px-4 py-2 rounded-full font-medium"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -284,52 +303,102 @@ const ProjectsSection: React.FC = () => {
                 animate="visible"
                 variants={containerVariants}
               >
-                <div className="grid grid-cols-[auto_1fr_auto] gap-4 items-center text-xs text-gray-400 border-b border-[#282828] pb-2 px-4">
+                <div className="grid grid-cols-[auto_1fr_auto] gap-4 items-center text-xs pb-2 px-4" style={{ color: "var(--text-muted)", borderBottom: "1px solid var(--divider)" }}>
                   <div>#</div>
                   <div>PROJECT</div>
                   <div>TECHNOLOGIES</div>
                 </div>
                 
-                {filteredProjects.map((project, index) => (
+                {paginatedProjects.map((project, index) => (
                   <motion.div 
                     key={project.title}
-                    className="grid grid-cols-[auto_1fr_auto] gap-4 items-center p-4 rounded-md hover:bg-[#282828] cursor-pointer transition-colors group"
+                    className="row-hover grid grid-cols-[auto_1fr_auto] gap-4 items-center p-4 rounded-lg cursor-pointer"
                     onClick={() => {
                       setSelectedProject(project);
                       setShowDetails(true);
                     }}
                     variants={itemVariants}
                   >
-                    <div className="text-gray-400 group-hover:text-white flex items-center justify-center w-6">
-                      <span className="group-hover:hidden">{index + 1}</span>
-                      <ChevronRight size={16} className="hidden group-hover:block text-[#0F766E]" />
+                    <div className="flex items-center justify-center w-6" style={{ color: "var(--text-muted)" }}>
+                      <span className="group-hover:hidden">{(safePage - 1) * projectsPerPage + index + 1}</span>
+                      <ChevronRight size={16} className="hidden group-hover:block" style={{ color: "var(--accent)" }} />
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-[#333] rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      <div className="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden chip">
                         {project.imageUrl ? 
                           <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" /> :
-                          <div className="text-lg font-bold text-gray-300">{project.title.charAt(0)}</div>
+                          <div className="text-lg font-bold" style={{ color: "var(--text-secondary)" }}>{project.title.charAt(0)}</div>
                         }
                       </div>
                       <div>
-                        <h3 className="font-medium text-white">{project.title}</h3>
-                        <p className="text-sm text-gray-400 line-clamp-1">{project.description}</p>
+                        <h3 className="font-medium" style={{ color: "var(--text-primary)" }}>{project.title}</h3>
+                        <p className="text-sm line-clamp-1" style={{ color: "var(--text-muted)" }}>{project.description}</p>
                       </div>
                     </div>
                     <div className="flex gap-2 flex-wrap justify-end">
                       {project.technologies.slice(0, 2).map((tech, idx) => (
-                        <span key={idx} className="text-xs text-gray-300 px-2 py-1 bg-[#333] rounded-full">
+                        <span key={idx} className="chip text-xs px-2 py-1 rounded-full font-medium">
                           {tech}
                         </span>
                       ))}
                       {project.technologies.length > 2 && (
-                        <span className="text-xs text-gray-300 px-2 py-1 bg-[#333] rounded-full">
+                        <span className="chip text-xs px-2 py-1 rounded-full font-medium">
                           +{project.technologies.length - 2}
                         </span>
                       )}
                     </div>
                   </motion.div>
                 ))}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <motion.div
+                    className="flex items-center justify-between px-4 py-4 mt-2 rounded-lg"
+                    style={{ borderTop: "1px solid var(--divider)" }}
+                  >
+                    <button
+                      onClick={() => goToPage(safePage - 1)}
+                      disabled={safePage === 1}
+                      className="btn-secondary flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <ArrowLeft size={14} />
+                      Prev
+                    </button>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+                        Showing{" "}
+                        <span className="font-medium" style={{ color: "var(--text-primary)" }}>
+                          {(safePage - 1) * projectsPerPage + 1}–
+                          {Math.min(safePage * projectsPerPage, filteredProjects.length)}
+                        </span>{" "}
+                        of {filteredProjects.length}
+                      </span>
+                      {[...Array(totalPages)].map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => goToPage(i + 1)}
+                          className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors ${
+                            safePage === i + 1
+                              ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
+                              : "nav-item"
+                          }`}
+                        >
+                          {i + 1}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={() => goToPage(safePage + 1)}
+                      disabled={safePage === totalPages}
+                      className="btn-secondary flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      Next
+                      <ChevronRight size={14} />
+                    </button>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </div>
@@ -338,7 +407,8 @@ const ProjectsSection: React.FC = () => {
         {/* Bottom Status Bar - Only shown when a project is selected but details aren't shown */}
         {selectedProject && !showDetails && (
           <motion.div 
-            className="fixed bottom-0 left-0 right-0 bg-[#181818] border-t border-[#282828] p-4"
+            className="fixed bottom-0 left-0 right-0 p-4"
+            style={{ background: "var(--bg-secondary)", borderTop: "1px solid var(--divider)" }}
             initial={{ y: 80 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.3 }}
@@ -346,15 +416,15 @@ const ProjectsSection: React.FC = () => {
             <div className="max-w-7xl mx-auto flex justify-between items-center">
               {/* Selected Project Info */}
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-[#333] rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
+                <div className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden chip">
                   {selectedProject.imageUrl ? 
                     <img src={selectedProject.imageUrl} alt={selectedProject.title} className="w-full h-full object-cover" /> :
-                    <div className="text-2xl font-bold text-gray-300">{selectedProject.title.charAt(0)}</div>
+                    <div className="text-2xl font-bold" style={{ color: "var(--text-secondary)" }}>{selectedProject.title.charAt(0)}</div>
                   }
                 </div>
                 <div>
-                  <h4 className="font-medium text-white">{selectedProject.title}</h4>
-                  <p className="text-xs text-gray-400 line-clamp-1">{selectedProject.description}</p>
+                  <h4 className="font-medium" style={{ color: "var(--text-primary)" }}>{selectedProject.title}</h4>
+                  <p className="text-xs line-clamp-1" style={{ color: "var(--text-muted)" }}>{selectedProject.description}</p>
                 </div>
               </div>
               
@@ -364,7 +434,7 @@ const ProjectsSection: React.FC = () => {
                   href={selectedProject.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="link-muted"
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -375,7 +445,7 @@ const ProjectsSection: React.FC = () => {
                     href={selectedProject.liveLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="link-muted"
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -384,7 +454,8 @@ const ProjectsSection: React.FC = () => {
                 )}
                 <motion.button
                   onClick={() => setShowDetails(true)}
-                  className="text-xs bg-transparent text-[#1DB954] border border-[#1DB954] hover:bg-[#1DB954]/10 px-3 py-1 rounded-full"
+                  className="text-xs bg-transparent px-3 py-1 rounded-full"
+                  style={{ color: "var(--accent)", border: "1px solid var(--accent-border)" }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

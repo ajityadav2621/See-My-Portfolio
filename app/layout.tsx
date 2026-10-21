@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { cn } from "../lib/cn";
+import FeedbackWidget from "@/components/FeedbackWidget";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/favicon.ico", // Optional for Apple devices
+    apple: "/favicon.ico",
   },
 };
 
@@ -32,15 +32,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
+      <head></head>
       <body
-        className={`${inter.variable} 
-                    bg-black 
-                    text-gray-300 
-                    antialiased 
-                    scroll-smooth`}
+        className={cn(
+          inter.variable,
+          "antialiased scroll-smooth transition-colors duration-300"
+        )}
+        style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
       >
         {children}
+        <FeedbackWidget />
       </body>
     </html>
   );
