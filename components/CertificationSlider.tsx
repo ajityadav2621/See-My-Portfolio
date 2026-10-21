@@ -217,8 +217,8 @@ const CertificationsSection: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen p-4 md:p-6 transition-colors duration-300"
-      style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
+      id="certifications"
+      className="relative z-10 min-h-screen p-4 md:p-6"
     >
       <div className="max-w-7xl mx-auto">
         <div className="panel-gradient rounded-xl">

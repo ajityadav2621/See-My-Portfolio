@@ -131,6 +131,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import LogoMark from "./LogoMark";
 
 const AvatarChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -173,15 +174,7 @@ const AvatarChat: React.FC = () => {
           {isOpen ? (
             <ChevronDown size={20} />
           ) : (
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 202 192"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="m201.945 0v96h-100.972c0-53.0134 45.213-96 100.972-96zm-201.945 192c55.7594 0 100.973-42.987 100.973-96h-100.973z" />
-            </svg>
+            <LogoMark size={20} fill="currentColor" />
           )}
         </button>
 
@@ -260,9 +253,7 @@ const AvatarChat: React.FC = () => {
                 }}
                 onClick={toggleChatbot}
               >
-                <svg width="20" height="20" viewBox="0 0 202 192" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="m201.945 0v96h-100.972c0-53.0134 45.213-96 100.972-96zm-201.945 192c55.7594 0 100.973-42.987 100.973-96h-100.973z" />
-                </svg>
+                <LogoMark size={20} fill="currentColor" />
               </button>
             </div>
           </div>

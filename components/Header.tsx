@@ -250,6 +250,92 @@
 import React, { useState, useEffect } from "react";
 import { Github, Gitlab, Linkedin, Menu, Twitter, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import LogoMark from "./LogoMark";
+
+const AvailabilityPill = () => {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="relative flex-shrink-0"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Compact dot — fixed size so the header never shifts */}
+      <div
+        title="Available for new opportunities"
+        className="flex items-center justify-center w-9 h-9 rounded-full cursor-default"
+        style={{
+          border: "1px solid var(--border-color)",
+          background: "var(--bg-header)",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <span
+          className="relative flex h-4 w-4 items-center justify-center rounded-full"
+          style={{
+            border: "1px solid rgba(45,212,191,0.45)",
+            boxShadow: "0 0 8px rgba(45,212,191,0.45)",
+          }}
+        >
+          <span className="absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60 animate-ping" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-400" />
+        </span>
+      </div>
+
+      {/* Dotted wave connector flowing from the dot down to the bubble */}
+      <AnimatePresence>
+        {hovered && (
+          <div className="absolute top-full left-1/2 -translate-x-1/2 max-sm:left-auto max-sm:right-0 max-sm:translate-x-0 mt-2 z-50 pointer-events-none flex flex-col items-center">
+            <svg
+              width="64"
+              height="50"
+              viewBox="0 0 64 50"
+              fill="none"
+              className="shrink-0"
+            >
+              <motion.path
+                d="M32 2 C20 10 44 16 32 25 C20 33 44 40 32 48"
+                stroke="rgba(45,212,191,0.65)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="0.5 7"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  strokeDashoffset: [0, -7.5, 0],
+                }}
+                exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                transition={{
+                  opacity: { duration: 0.25 },
+                  y: { type: "spring", stiffness: 400, damping: 22 },
+                  strokeDashoffset: { duration: 1.1, repeat: Infinity, ease: "linear" },
+                }}
+              />
+            </svg>
+
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.85, transition: { duration: 0.15 } }}
+              transition={{ type: "spring", stiffness: 420, damping: 20 }}
+              className="relative rounded-full px-5 py-2.5 text-xs font-medium text-neutral-200 whitespace-nowrap"
+              style={{
+                border: "1px solid var(--border-color)",
+                background: "var(--bg-header)",
+                backdropFilter: "blur(10px)",
+                boxShadow: "0 0 0 4px rgba(45,212,191,0.06), 0 12px 32px rgba(0,0,0,0.45)",
+              }}
+            >
+              Available for new opportunities
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -280,10 +366,10 @@ const Header = () => {
       className="fixed top-6 left-0 w-full z-50"
     >
       {/* Desktop Header — pill + theme button side by side */}
-      <div className="hidden sm:flex items-center justify-center gap-4 px-4 md:px-6">
-        {/* Header pill */}
-        <div
-          className="flex-1 max-w-4xl rounded-2xl transition-all duration-300"
+      <div className="hidden sm:flex items-center justify-center gap-3 px-4 md:px-6">
+      {/* Desktop pill */}
+      <div
+        className="flex-1 max-w-4xl rounded-2xl transition-all duration-300"
           style={{
             backdropFilter: "blur(10px)",
             border: "1px solid var(--border-color)",
@@ -297,18 +383,10 @@ const Header = () => {
               transition={{ duration: 0.5 }}
               className="flex items-center space-x-2"
             >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 202 192"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ fill: "var(--logo-fill)" }}
-              >
-                <path d="m201.945 0v96h-100.972c0-53.0134 45.213-96 100.972-96zm-201.945 192c55.7594 0 100.973-42.987 100.973-96h-100.973z" />
-              </svg>
-              <div className="text-2xl" style={{ color: "var(--text-primary)" }}>
-                Let&apos;s Solve Problems
-              </div>
+                <LogoMark />
+                <div className="text-2xl" style={{ color: "var(--text-primary)" }}>
+                  Let&apos;s Solve Problems
+                </div>
             </motion.div>
 
             {/* Desktop Nav */}
@@ -359,9 +437,12 @@ const Header = () => {
                   Book a Meeting
                 </span>
               </motion.a>
+              </div>
             </div>
           </div>
-        </div>
+
+          {/* Availability — hover to reveal */}
+          <AvailabilityPill />
       </div>
 
       {/* Mobile Header */}
@@ -381,15 +462,7 @@ const Header = () => {
               transition={{ duration: 0.5 }}
               className="flex items-center space-x-2"
             >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 202 192"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ fill: "var(--logo-fill)" }}
-              >
-                <path d="m201.945 0v96h-100.972c0-53.0134 45.213-96 100.972-96zm-201.945 192c55.7594 0 100.973-42.987 100.973-96h-100.973z" />
-              </svg>
+              <LogoMark />
               <div
                 className="text-xl font-semibold"
                 style={{ color: "var(--text-primary)" }}
@@ -399,6 +472,7 @@ const Header = () => {
             </motion.div>
 
             <div className="flex items-center gap-3">
+              <AvailabilityPill />
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}

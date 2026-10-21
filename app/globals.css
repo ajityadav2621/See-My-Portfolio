@@ -200,10 +200,26 @@ input::placeholder, textarea::placeholder {
   0%   { background-position: 0 0, 0 0; }
   100% { background-position: 64px 64px, 64px 64px; }
 }
-@keyframes twinkle {
-  0%, 100% { opacity: 0.15; }
-  50%      { opacity: 0.8; }
-}
 .animate-aurora-drift { animation: aurora-drift 22s ease-in-out infinite; }
 .animate-grid-pan     { animation: grid-pan 18s linear infinite; }
-.animate-twinkle      { animation: twinkle 4s ease-in-out infinite; }
+
+/* ─── Role text shine sweep ─── */
+@keyframes shine-sweep {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.role-shine {
+  background: linear-gradient(
+    110deg,
+    #a3a3a3 25%,
+    #ffffff 45%,
+    #2dd4bf 52%,
+    #ffffff 59%,
+    #a3a3a3 75%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine-sweep 3.5s linear infinite;
+}

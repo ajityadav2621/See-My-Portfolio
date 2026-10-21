@@ -189,8 +189,8 @@ const ProjectsSection: React.FC = () => {
 
   return (
     <section
-      className="min-h-screen p-4 md:p-6 transition-colors duration-300"
-      style={{ background: "var(--bg-primary)", color: "var(--text-secondary)" }}
+      id="projects"
+      className="relative z-10 min-h-screen p-4 md:p-6"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
