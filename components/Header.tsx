@@ -263,7 +263,6 @@ const AvailabilityPill = () => {
     >
       {/* Compact dot — fixed size so the header never shifts */}
       <div
-        title="Available for new opportunities"
         className="flex items-center justify-center w-9 h-9 rounded-full cursor-default"
         style={{
           border: "1px solid var(--border-color)",
@@ -283,35 +282,44 @@ const AvailabilityPill = () => {
         </span>
       </div>
 
-      {/* Dotted wave connector flowing from the dot down to the bubble */}
+      {/* Curved arrow connectors — static, pointing down to the bubble */}
       <AnimatePresence>
         {hovered && (
-          <div className="absolute top-full left-1/2 -translate-x-1/2 max-sm:left-auto max-sm:right-0 max-sm:translate-x-0 mt-2 z-50 pointer-events-none flex flex-col items-center">
+          <div className="absolute top-full left-1/2 -translate-x-1/2 max-sm:left-auto max-sm:right-0 max-sm:translate-x-0 mt-3 z-50 pointer-events-none flex flex-col items-center">
             <svg
               width="64"
-              height="50"
-              viewBox="0 0 64 50"
+              height="44"
+              viewBox="0 0 64 44"
               fill="none"
               className="shrink-0"
             >
-              <motion.path
-                d="M32 2 C20 10 44 16 32 25 C20 33 44 40 32 48"
-                stroke="rgba(45,212,191,0.65)"
-                strokeWidth="2"
+              {/* Left curved arrow */}
+              <path
+                d="M14 2 C22 16 26 28 27 36"
+                stroke="rgba(45,212,191,0.6)"
+                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeDasharray="0.5 7"
-                initial={{ opacity: 0, y: -6 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  strokeDashoffset: [0, -7.5, 0],
-                }}
-                exit={{ opacity: 0, transition: { duration: 0.15 } }}
-                transition={{
-                  opacity: { duration: 0.25 },
-                  y: { type: "spring", stiffness: 400, damping: 22 },
-                  strokeDashoffset: { duration: 1.1, repeat: Infinity, ease: "linear" },
-                }}
+              />
+              <path
+                d="M21.5 32 L27.5 39.5 L34 33.5"
+                stroke="rgba(45,212,191,0.6)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {/* Right curved arrow */}
+              <path
+                d="M50 2 C42 16 38 28 37 36"
+                stroke="rgba(45,212,191,0.4)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+              <path
+                d="M30 33.5 L36.5 39.5 L42.5 32"
+                stroke="rgba(45,212,191,0.4)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
 
