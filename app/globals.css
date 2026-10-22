@@ -203,8 +203,25 @@ input::placeholder, textarea::placeholder {
 .animate-aurora-drift { animation: aurora-drift 22s ease-in-out infinite; }
 .animate-grid-pan     { animation: grid-pan 18s linear infinite; }
 
-/* ─── Typewriter cursor blink ─── */
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0; }
+/* ─── Role text moving wave ─── */
+@keyframes letter-wave {
+  0%, 100% { transform: translateY(0); }
+  30%      { transform: translateY(-0.18em); }
+  55%      { transform: translateY(0.06em); }
+}
+.hero-letter-wave {
+  display: inline-block;
+  animation: letter-wave 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ─── Role text fog reveal ─── */
+@keyframes letter-fog-in {
+  from { opacity: 0; filter: blur(14px); }
+  55%  { opacity: 0.55; filter: blur(5px); }
+  to   { opacity: 1; filter: blur(0); }
+}
+.hero-letter-fog {
+  display: inline-block;
+  animation: letter-fog-in 0.9s ease-out both;
 }

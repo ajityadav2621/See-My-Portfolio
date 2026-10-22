@@ -160,23 +160,29 @@ const HeroSection = () => {
           Ajit Yadav
         </h1>
 
-        {/* Typewriter role text */}
-        <div className="relative h-10 md:h-12 flex items-center justify-center gap-2.5">
+        {/* Typewriter role text — letters surface out of fog, riding a moving wave */}
+        <div className="relative h-10 md:h-12 flex items-center justify-center">
           <span
-            className="whitespace-nowrap text-2xl md:text-3xl font-semibold tracking-wide"
+            className="whitespace-pre text-2xl md:text-3xl font-semibold tracking-wide"
             style={{ color: "var(--text-primary)", minHeight: "1em" }}
+            aria-label={roleText}
           >
-            {roleText}
+            {[...roleText].map((ch, i) => (
+              <span
+                key={`${i}-${ch}`}
+                className="hero-letter-fog"
+                style={{ animationDelay: `${i * 90}ms` }}
+                aria-hidden
+              >
+                <span
+                  className="hero-letter-wave"
+                  style={{ animationDelay: `${i * 90}ms` }}
+                >
+                  {ch}
+                </span>
+              </span>
+            ))}
           </span>
-          <span
-            className="inline-flex w-[3px] md:w-1 h-7 md:h-9 rounded-full"
-            style={{
-              background: "linear-gradient(180deg, #14b8a6, #0f766e)",
-              animation: "cursor-blink 1s steps(1) infinite",
-              boxShadow: "0 0 12px rgba(20,184,166,0.7)",
-            }}
-            aria-hidden
-          />
         </div>
 
         <p className="max-w-xl mx-auto text-sm md:text-base text-neutral-400 leading-relaxed">
