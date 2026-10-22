@@ -160,28 +160,35 @@ const HeroSection = () => {
           Ajit Yadav
         </h1>
 
-        {/* Typewriter role text — letters surface out of fog, riding a moving wave */}
+        {/* Typewriter role text — fog blooms from the center and rolls outward */}
         <div className="relative h-10 md:h-12 flex items-center justify-center">
+          {/* Centered light cloud drifting out to the sides */}
+          <span className="hero-fog-cloud" style={{ animationDelay: "0ms" }} aria-hidden />
+          <span className="hero-fog-cloud" style={{ animationDelay: "-1.6s" }} aria-hidden />
           <span
             className="whitespace-pre text-2xl md:text-3xl font-semibold tracking-wide"
             style={{ color: "var(--text-primary)", minHeight: "1em" }}
             aria-label={roleText}
           >
-            {[...roleText].map((ch, i) => (
-              <span
-                key={`${i}-${ch}`}
-                className="hero-letter-fog"
-                style={{ animationDelay: `${i * 90}ms` }}
-                aria-hidden
-              >
+            {[...roleText].map((ch, i) => {
+              const center = (roles[roleIndex].length - 1) / 2;
+              const dist = Math.abs(i - center);
+              return (
                 <span
-                  className="hero-letter-wave"
-                  style={{ animationDelay: `${i * 90}ms` }}
+                  key={`${roleIndex}-${i}-${ch}`}
+                  className="hero-letter-fog"
+                  style={{ animationDelay: `${dist * 110}ms` }}
+                  aria-hidden
                 >
-                  {ch}
+                  <span
+                    className="hero-letter-wave"
+                    style={{ animationDelay: `${dist * 90}ms` }}
+                  >
+                    {ch}
+                  </span>
                 </span>
-              </span>
-            ))}
+              );
+            })}
           </span>
         </div>
 

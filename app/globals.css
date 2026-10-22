@@ -215,7 +215,7 @@ input::placeholder, textarea::placeholder {
   will-change: transform;
 }
 
-/* ─── Role text fog reveal ─── */
+/* ─── Role text fog reveal — blooms from center, rolls to both sides ─── */
 @keyframes letter-fog-in {
   from { opacity: 0; filter: blur(14px); }
   55%  { opacity: 0.55; filter: blur(5px); }
@@ -224,4 +224,25 @@ input::placeholder, textarea::placeholder {
 .hero-letter-fog {
   display: inline-block;
   animation: letter-fog-in 0.9s ease-out both;
+}
+
+/* ─── Light cloud haze expanding from the text centre ─── */
+@keyframes fog-cloud-spread {
+  0%   { transform: translateX(-50%) scaleX(0.35); opacity: 0; }
+  35%  { opacity: 0.55; }
+  100% { transform: translateX(-50%) scaleX(1.75); opacity: 0; }
+}
+.hero-fog-cloud {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 55%;
+  height: 2.4rem;
+  border-radius: 9999px;
+  pointer-events: none;
+  background:
+    radial-gradient(closest-side, rgba(255,255,255,0.16) 0%, rgba(45,212,191,0.10) 55%, transparent 100%);
+  filter: blur(18px);
+  animation: fog-cloud-spread 3.2s ease-in-out infinite;
+  will-change: transform, opacity;
 }
