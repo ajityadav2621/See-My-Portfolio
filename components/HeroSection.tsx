@@ -11,6 +11,8 @@ const roles = ["Software Engineer", "AI Engineer", "Full-Stack Developer"];
 const HeroSection = () => {
   const [showResume, setShowResume] = useState(false);
   const [shareState, setShareState] = useState<"idle" | "shared">("idle");
+  const [roleText, setRoleText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
   const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
@@ -21,13 +23,32 @@ const HeroSection = () => {
     }
   }, []);
 
+  // Typewriter: types the role, holds, deletes, moves to the next
   useEffect(() => {
-    const interval = setInterval(
-      () => setRoleIndex((i) => (i + 1) % roles.length),
-      2800
-    );
-    return () => clearInterval(interval);
-  }, []);
+    const current = roles[roleIndex];
+    let delay = isDeleting ? 45 : 85;
+    if (!isDeleting && roleText === current) delay = 2200;
+    if (isDeleting && roleText === "") delay = 350;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        if (roleText === current) {
+          setIsDeleting(true);
+        } else {
+          const next = Math.random() < 0.35 ? current.length : roleText.length + 1;
+          setRoleText(current.slice(0, Math.min(next, current.length)));
+        }
+      } else {
+        if (roleText === "") {
+          setIsDeleting(false);
+          setRoleIndex((i) => (i + 1) % roles.length);
+        } else {
+          setRoleText(current.slice(0, roleText.length - 1));
+        }
+      }
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [roleText, isDeleting, roleIndex]);
 
   const generateShareLink = () => {
     const token =
@@ -139,20 +160,23 @@ const HeroSection = () => {
           Ajit Yadav
         </h1>
 
-        {/* Morphing role text */}
-        <div className="relative h-10 md:h-12 flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={roles[roleIndex]}
-              initial={{ y: 28, opacity: 0, filter: "blur(8px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              exit={{ y: -28, opacity: 0, filter: "blur(8px)" }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute whitespace-nowrap text-2xl md:text-3xl font-semibold role-shine"
-            >
-              {roles[roleIndex]}
-            </motion.span>
-          </AnimatePresence>
+        {/* Typewriter role text */}
+        <div className="relative h-10 md:h-12 flex items-center justify-center gap-2.5">
+          <span
+            className="whitespace-nowrap text-2xl md:text-3xl font-semibold tracking-wide"
+            style={{ color: "var(--text-primary)", minHeight: "1em" }}
+          >
+            {roleText}
+          </span>
+          <span
+            className="inline-flex w-[3px] md:w-1 h-7 md:h-9 rounded-full"
+            style={{
+              background: "linear-gradient(180deg, #14b8a6, #0f766e)",
+              animation: "cursor-blink 1s steps(1) infinite",
+              boxShadow: "0 0 12px rgba(20,184,166,0.7)",
+            }}
+            aria-hidden
+          />
         </div>
 
         <p className="max-w-xl mx-auto text-sm md:text-base text-neutral-400 leading-relaxed">

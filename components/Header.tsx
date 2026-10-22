@@ -374,7 +374,7 @@ const Header = () => {
       className="fixed top-6 left-0 w-full z-50"
     >
       {/* Desktop Header — pill + theme button side by side */}
-      <div className="hidden sm:flex items-center justify-center gap-3 px-4 md:px-6">
+      <div className="hidden md:flex items-center justify-center gap-3 px-4 md:px-6">
       {/* Desktop pill */}
       <div
         className="flex-1 max-w-4xl rounded-2xl transition-all duration-300"
@@ -454,9 +454,9 @@ const Header = () => {
       </div>
 
       {/* Mobile Header */}
-      <div className="md:hidden container max-w-5xl mx-auto px-8">
+      <div className="md:hidden max-w-5xl mx-auto px-3">
         <div
-          className="container max-w-4xl mt-2 overflow-hidden mx-auto px-8 md:px-6 rounded-2xl transition-all duration-300"
+          className="max-w-4xl mt-2 overflow-hidden mx-auto rounded-2xl transition-all duration-300"
           style={{
             backdropFilter: "blur(20px)",
             border: "1px solid var(--border-color)",
@@ -503,7 +503,7 @@ const Header = () => {
       {/* Mobile Dropdown */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="md:hidden container max-w-5xl mx-auto px-8">
+          <div className="md:hidden max-w-5xl mx-auto px-3">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -250,7 +250,7 @@ const ProjectsSection: React.FC = () => {
                   <div className="flex-1">
                     <div className="mb-4">
                       <span className="text-sm font-medium" style={{ color: "var(--accent)" }}>{selectedProject.category}</span>
-                      <h1 className="text-4xl font-bold mt-1" style={{ color: "var(--text-primary)" }}>{selectedProject.title}</h1>
+                      <h1 className="text-2xl sm:text-4xl font-bold mt-1 break-words" style={{ color: "var(--text-primary)" }}>{selectedProject.title}</h1>
                     </div>
                     
                     <p className="mb-6" style={{ color: "var(--text-secondary)" }}>{selectedProject.description}</p>
@@ -266,7 +266,7 @@ const ProjectsSection: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap gap-3">
                       <motion.a
                         href={selectedProject.githubLink}
                         target="_blank"
@@ -306,7 +306,7 @@ const ProjectsSection: React.FC = () => {
                 <div className="grid grid-cols-[auto_1fr_auto] gap-4 items-center text-xs pb-2 px-4" style={{ color: "var(--text-muted)", borderBottom: "1px solid var(--divider)" }}>
                   <div>#</div>
                   <div>PROJECT</div>
-                  <div>TECHNOLOGIES</div>
+                  <div className="hidden sm:block">TECHNOLOGIES</div>
                 </div>
                 
                 {paginatedProjects.map((project, index) => (
@@ -335,7 +335,7 @@ const ProjectsSection: React.FC = () => {
                         <p className="text-sm line-clamp-1" style={{ color: "var(--text-muted)" }}>{project.description}</p>
                       </div>
                     </div>
-                    <div className="flex gap-2 flex-wrap justify-end">
+                    <div className="hidden sm:flex gap-2 flex-wrap justify-end">
                       {project.technologies.slice(0, 2).map((tech, idx) => (
                         <span key={idx} className="chip text-xs px-2 py-1 rounded-full font-medium">
                           {tech}
@@ -353,7 +353,7 @@ const ProjectsSection: React.FC = () => {
                 {/* Pagination */}
                 {totalPages > 1 && (
                   <motion.div
-                    className="flex items-center justify-between px-4 py-4 mt-2 rounded-lg"
+                    className="flex-wrap justify-center gap-3 flex items-center px-4 py-4 mt-2 rounded-lg"
                     style={{ borderTop: "1px solid var(--divider)" }}
                   >
                     <button
