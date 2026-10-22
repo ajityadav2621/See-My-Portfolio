@@ -80,7 +80,7 @@ const HeroSection = () => {
           className="absolute -top-32 -left-32 w-[36rem] h-[36rem] rounded-full animate-aurora-drift"
           style={{
             background:
-              "radial-gradient(circle, rgba(20,184,166,0.13) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(20,184,166,0.20) 0%, transparent 70%)",
             filter: "blur(90px)",
           }}
         />
@@ -88,7 +88,7 @@ const HeroSection = () => {
           className="absolute top-1/3 -right-40 w-[32rem] h-[32rem] rounded-full animate-aurora-drift"
           style={{
             background:
-              "radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(59,130,246,0.16) 0%, transparent 70%)",
             filter: "blur(90px)",
             animationDelay: "-9s",
           }}
@@ -97,7 +97,7 @@ const HeroSection = () => {
           className="absolute -bottom-44 left-1/4 w-[28rem] h-[28rem] rounded-full animate-aurora-drift"
           style={{
             background:
-              "radial-gradient(circle, rgba(168,85,247,0.07) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%)",
             filter: "blur(90px)",
             animationDelay: "-16s",
           }}
@@ -108,7 +108,7 @@ const HeroSection = () => {
           className="absolute inset-0 animate-grid-pan"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)",
+              "linear-gradient(rgba(255,255,255,0.065) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.065) 1px, transparent 1px)",
             backgroundSize: "64px 64px",
             maskImage:
               "radial-gradient(ellipse 85% 60% at 50% 38%, black 25%, transparent 78%)",

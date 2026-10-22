@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Star, MessageSquarePlus, Send, CheckCircle2 } from "lucide-react";
+import { X, Star, MessageSquarePlus, Send, CheckCircle2, Linkedin, ArrowUpRight } from "lucide-react";
 
 type FeedbackState = "idle" | "open" | "submitted";
 
@@ -78,7 +78,7 @@ const FeedbackWidget = () => {
       setTopic("");
       setMessage("");
       setIsExitIntent(false);
-    }, 2800);
+    }, 9000);
   };
 
   const canSubmit = rating > 0 && topic !== "";
@@ -138,26 +138,82 @@ const FeedbackWidget = () => {
               {state === "submitted" ? (
                 /* ── Thank You State ── */
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center p-10 gap-4 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-col items-center text-center"
                 >
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 20, delay: 0.1 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 22, delay: 0.05 }}
+                    className="flex flex-col items-center justify-center pt-10 pb-7 px-10 gap-3"
                   >
-                    <CheckCircle2
-                      className="w-16 h-16"
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 20, delay: 0.1 }}
+                    >
+                      <CheckCircle2
+                        className="w-16 h-16"
+                        style={{ color: "#14b8a6" }}
+                      />
+                    </motion.div>
+                    <p className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
+                      Thanks for the feedback!
+                    </p>
+                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                      Really means a lot. 🙌
+                    </p>
+                  </motion.div>
+
+                  {/* LinkedIn connect card */}
+                  <motion.a
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 24, delay: 0.25 }}
+                    href="https://linkedin.com/in/ajit-yadav-6b0b77208/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex items-center gap-3 w-full px-5 py-4 text-left transition-colors duration-200"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, rgba(20,184,166,0.10), rgba(20,184,166,0.03))",
+                      borderTop: "1px solid var(--feedback-border)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background =
+                        "linear-gradient(135deg, rgba(20,184,166,0.16), rgba(20,184,166,0.06))";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background =
+                        "linear-gradient(135deg, rgba(20,184,166,0.10), rgba(20,184,166,0.03))";
+                    }}
+                  >
+                    <span
+                      className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+                      style={{ background: "rgba(20,184,166,0.15)" }}
+                    >
+                      <Linkedin className="w-5 h-5" style={{ color: "#14b8a6" }} />
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span
+                        className="block text-sm font-semibold"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        Let&apos;s connect on LinkedIn
+                      </span>
+                      <span
+                        className="block text-xs mt-0.5"
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        Follow the journey, say hi anytime →
+                      </span>
+                    </span>
+                    <ArrowUpRight
+                      className="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       style={{ color: "#14b8a6" }}
                     />
-                  </motion.div>
-                  <p className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
-                    Thanks for the feedback!
-                  </p>
-                  <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                    Really means a lot. 🙌
-                  </p>
+                  </motion.a>
                 </motion.div>
               ) : (
                 /* ── Form State ── */
