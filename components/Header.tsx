@@ -274,6 +274,7 @@ const Header = () => {
   }, []);
 
   return (
+    <>
     <motion.header
       initial={{ y: 0, opacity: 1 }}
       animate={{
@@ -462,9 +463,10 @@ const Header = () => {
           </div>
         )}
       </AnimatePresence>
-
-      <CopilotChat open={chatOpen} onClose={() => setChatOpen(false)} />
     </motion.header>
+
+    <CopilotChat open={chatOpen} onClose={() => setChatOpen(false)} />
+    </>
   );
 };
 
