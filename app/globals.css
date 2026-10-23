@@ -203,6 +203,108 @@ input::placeholder, textarea::placeholder {
 .animate-aurora-drift { animation: aurora-drift 22s ease-in-out infinite; }
 .animate-grid-pan     { animation: grid-pan 18s linear infinite; }
 
+/* ─── Assistant mascot: idle eye blink + cursor tracking ─── */
+@keyframes mascot-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  94%           { transform: scaleY(0.08); }
+}
+.mascot-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascot-blink 4.2s ease-in-out infinite;
+}
+.mascot-eye-delay {
+  animation-delay: 0.09s;
+}
+
+/* ─── Bit mascot: states, tilt, zZ, wiggle ─── */
+.bit-root {
+  position: relative;
+}
+.bit-root:focus-visible {
+  outline: 2px solid #14b8a6;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+.bit-body {
+  perspective: 300px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.bit-face {
+  transform: scale(0.82);
+  opacity: 0.55;
+  filter: saturate(0.5) brightness(0.75);
+  transition:
+    transform 0.45s cubic-bezier(0.34, 1.7, 0.5, 1),
+    opacity 0.45s ease,
+    filter 0.45s ease;
+}
+.bit-face-awake {
+  transform: scale(1);
+  opacity: 1;
+  filter: saturate(1) brightness(1) drop-shadow(0 6px 12px rgba(31, 191, 174, 0.333));
+}
+.bit-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.14s ease;
+}
+.bit-zz {
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  width: 20px;
+  height: 22px;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+.bit-zz-hidden {
+  opacity: 0;
+}
+.bit-zz-hidden .bit-z {
+  animation-play-state: paused;
+}
+.bit-z {
+  position: absolute;
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+  font-weight: 700;
+  font-size: 9px;
+  color: #7fe8dc;
+  animation: bit-z-float 2.4s ease-in-out infinite;
+}
+.bit-z1 { top: 8px; right: 10px; }
+.bit-z2 { top: 0px; right: 2px; animation-delay: 1.2s; }
+@keyframes bit-z-float {
+  0%   { opacity: 0; transform: translate(0, 2px); }
+  20%  { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(7px, -10px); }
+}
+.bit-wiggle {
+  animation: bit-wiggle 0.5s ease-in-out;
+  transform-origin: 50% 90%;
+}
+@keyframes bit-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-6deg); }
+  60%  { transform: rotate(5deg); }
+  100% { transform: rotate(0deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bit-face,
+  .bit-face-awake {
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+  .bit-z {
+    animation: none;
+    opacity: 0;
+  }
+  .bit-wiggle {
+    animation: none;
+  }
+}
+
 /* ─── Role text moving wave ─── */
 @keyframes letter-wave {
   0%, 100% { transform: translateY(0); }

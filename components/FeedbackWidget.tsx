@@ -94,7 +94,7 @@ const FeedbackWidget = () => {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
             onClick={handleOpen}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full shadow-2xl font-medium text-sm transition-all duration-200 hover:scale-105 active:scale-95"
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full shadow-2xl font-medium text-sm transition-all duration-200 hover:scale-105 active:scale-95"
             style={{
               background: "linear-gradient(135deg, #14b8a6, #0f766e)",
               color: "#fff",

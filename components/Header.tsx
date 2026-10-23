@@ -251,103 +251,13 @@ import React, { useState, useEffect } from "react";
 import { Github, Gitlab, Linkedin, Menu, Twitter, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoMark from "./LogoMark";
-
-const AvailabilityPill = () => {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div
-      className="relative flex-shrink-0"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Compact dot — fixed size so the header never shifts */}
-      <div
-        className="flex items-center justify-center w-9 h-9 rounded-full cursor-default"
-        style={{
-          border: "1px solid var(--border-color)",
-          background: "var(--bg-header)",
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        <span
-          className="relative flex h-4 w-4 items-center justify-center rounded-full"
-          style={{
-            border: "1px solid rgba(45,212,191,0.45)",
-            boxShadow: "0 0 8px rgba(45,212,191,0.45)",
-          }}
-        >
-          <span className="absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60 animate-ping" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-400" />
-        </span>
-      </div>
-
-      {/* Curved arrow connectors — static, pointing down to the bubble */}
-      <AnimatePresence>
-        {hovered && (
-          <div className="absolute top-full left-1/2 -translate-x-1/2 max-sm:left-auto max-sm:right-0 max-sm:translate-x-0 mt-3 z-50 pointer-events-none flex flex-col items-center">
-            <svg
-              width="64"
-              height="44"
-              viewBox="0 0 64 44"
-              fill="none"
-              className="shrink-0"
-            >
-              {/* Left curved arrow */}
-              <path
-                d="M14 2 C22 16 26 28 27 36"
-                stroke="rgba(45,212,191,0.6)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M21.5 32 L27.5 39.5 L34 33.5"
-                stroke="rgba(45,212,191,0.6)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              {/* Right curved arrow */}
-              <path
-                d="M50 2 C42 16 38 28 37 36"
-                stroke="rgba(45,212,191,0.4)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M30 33.5 L36.5 39.5 L42.5 32"
-                stroke="rgba(45,212,191,0.4)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -6, scale: 0.85, transition: { duration: 0.15 } }}
-              transition={{ type: "spring", stiffness: 420, damping: 20 }}
-              className="relative rounded-full px-5 py-2.5 text-xs font-medium text-neutral-200 whitespace-nowrap"
-              style={{
-                border: "1px solid var(--border-color)",
-                background: "var(--bg-header)",
-                backdropFilter: "blur(10px)",
-                boxShadow: "0 0 0 4px rgba(45,212,191,0.06), 0 12px 32px rgba(0,0,0,0.45)",
-              }}
-            >
-              Available for new opportunities
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
+import CopilotChat from "./CopilotChat";
+import { Bit } from "./Bit";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
+  const [chatOpen, setChatOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -399,7 +309,7 @@ const Header = () => {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-6">
-              {/* Social Icons */}
+              {/* Social Icons — assistant first */}
               <div className="flex items-center space-x-5 pl-4">
                 {[
                   { href: "https://github.com/ajityadav2621", Icon: Github },
@@ -449,8 +359,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Availability — hover to reveal */}
-          <AvailabilityPill />
+          <Bit open={chatOpen} onOpen={() => setChatOpen(true)} svgSize={46} className="mr-1 self-center" />
       </div>
 
       {/* Mobile Header */}
@@ -480,7 +389,7 @@ const Header = () => {
             </motion.div>
 
             <div className="flex items-center gap-3">
-              <AvailabilityPill />
+              <Bit open={chatOpen} onOpen={() => setChatOpen(true)} svgSize={30} />
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -552,6 +461,8 @@ const Header = () => {
           </div>
         )}
       </AnimatePresence>
+
+      <CopilotChat open={chatOpen} onClose={() => setChatOpen(false)} />
     </motion.header>
   );
 };
