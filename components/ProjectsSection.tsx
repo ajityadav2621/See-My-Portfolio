@@ -45,26 +45,26 @@ const LANG_COLORS: Record<string, string> = {
 
 const langColor = (lang: string | null) => LANG_COLORS[lang ?? ""] ?? "#2dd4bf";
 
-const fmtDate = (iso: string) => {
-  try {
-    return new Date(iso).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return "";
-  }
-};
-
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut" as const,
+    },
+  },
 };
 
 const ProjectsSection: React.FC = () => {
@@ -104,7 +104,7 @@ const ProjectsSection: React.FC = () => {
       const key = r.language ?? "Other";
       counts.set(key, (counts.get(key) ?? 0) + 1);
     });
-    return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([l]) => l);
+    return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([l]) => l);
   }, [repos]);
 
   const filtered = useMemo(() => {
@@ -124,185 +124,218 @@ const ProjectsSection: React.FC = () => {
 
   return (
     <section id="projects" className="relative z-10 min-h-screen p-4 md:p-6">
-      <div className="max-w-7xl mx-auto panel-gradient rounded-xl">
-        {/* Header */}
-        <div
-          className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3"
-          style={{ borderBottom: "1px solid var(--panel-border)" }}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Sidebar */}
+        <aside
+          className="md:col-span-1 panel rounded-xl p-4 md:sticky md:top-28 self-start"
+          style={{ color: "var(--text-primary)" }}
         >
-          <div>
-            <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-              Project Repo&apos;s
-            </h2>
-            <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-1">Project Repo&apos;s</h2>
+            <p className="text-xs mb-5" style={{ color: "var(--text-muted)" }}>
               {failed
-                ? "Live GitHub fetch failed — showing cached repos"
+                ? "Live fetch unavailable — cached repos shown"
                 : repos
-                  ? `Live from github.com/${GITHUB_USER} — tap any repo to open it`
+                  ? `Live · github.com/${GITHUB_USER}`
                   : "Loading live repositories…"}
             </p>
+            <nav className="space-y-2">
+              {["All", ...languages].map((category) => (
+                <motion.button
+                  key={category}
+                  onClick={() => selectLang(category)}
+                  className={`block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors
+                            ${activeLang === category
+                              ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
+                              : "nav-item"}`}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {category}
+                </motion.button>
+              ))}
+            </nav>
+            <a
+              href={`https://github.com/${GITHUB_USER}?tab=repositories`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 flex items-center gap-2 text-xs link-muted"
+            >
+              <Github size={14} />
+              All repos on GitHub
+            </a>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {["All", ...languages].map((lang) => (
-              <motion.button
-                key={lang}
-                onClick={() => selectLang(lang)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  activeLang === lang
-                    ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
-                    : "chip"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {lang}
-              </motion.button>
-            ))}
-          </div>
-        </div>
+        </aside>
 
-        {/* Grid */}
-        <div className="p-4 sm:p-5">
+        {/* Main Content */}
+        <div className="md:col-span-3 panel-gradient rounded-xl">
           {repos === null ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-4 space-y-2">
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl h-[140px] animate-pulse"
-                  style={{ background: "var(--highlight-bg)", border: "1px solid var(--panel-border)" }}
+                  className="h-16 rounded-lg animate-pulse"
+                  style={{ background: "var(--highlight-bg)" }}
                 />
               ))}
             </div>
           ) : paginated.length === 0 ? (
             <div className="w-full flex items-center justify-center h-40">
-              <p style={{ color: "var(--text-muted)" }}>No repositories in this language yet.</p>
+              <p style={{ color: "var(--text-muted)" }}>
+                No repositories in this language yet.
+              </p>
             </div>
           ) : (
             <motion.div
+              className="p-4"
               initial="hidden"
               animate="visible"
               variants={containerVariants}
               key={`${activeLang}-${safePage}`}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             >
-              {paginated.map((repo) => (
+              <div
+                className="grid grid-cols-[auto_1fr_auto] gap-4 items-center text-xs pb-2 px-4"
+                style={{
+                  color: "var(--text-muted)",
+                  borderBottom: "1px solid var(--divider)",
+                }}
+              >
+                <div>#</div>
+                <div>PROJECT</div>
+                <div className="hidden sm:block">TECHNOLOGIES</div>
+              </div>
+
+              {paginated.map((repo, index) => (
                 <motion.a
                   key={repo.name}
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="row-hover group grid grid-cols-[auto_1fr_auto] gap-4 items-center p-4 rounded-lg cursor-pointer"
                   variants={itemVariants}
-                  whileHover={{ y: -4 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="group flex flex-col rounded-2xl p-4 sm:p-5 h-full min-h-[9rem]"
-                  style={{
-                    background: "var(--input-bg)",
-                    border: "1px solid var(--input-border)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(45,212,191,0.55)";
-                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(20,184,166,0.12)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--input-border)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
+                  whileTap={{ scale: 0.995 }}
                 >
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <h3
-                      className="font-semibold text-sm sm:text-base leading-snug group-hover:underline decoration-teal-500 underline-offset-4"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      {repo.name}
-                    </h3>
-                    <Github className="w-4 h-4 shrink-0 mt-1 transition-colors" style={{ color: "var(--text-muted)" }} />
-                  </div>
-                  <p
-                    className="text-xs sm:text-sm leading-snug line-clamp-2 flex-1"
+                  <div
+                    className="flex items-center justify-center w-6"
                     style={{ color: "var(--text-muted)" }}
                   >
-                    {repo.description || "No description provided."}
-                  </p>
-                  <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: "1px solid var(--divider)" }}>
-                    <div className="flex items-center gap-2 min-w-0">
+                    <span className="group-hover:hidden">
+                      {(safePage - 1) * REPOS_PER_PAGE + index + 1}
+                    </span>
+                    <ChevronRight
+                      size={16}
+                      className="hidden group-hover:block"
+                      style={{ color: "var(--accent)" }}
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden chip"
+                      style={{ background: "var(--tag-bg)" }}
+                    >
                       <span
-                        className="flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full shrink-0"
-                        style={{
-                          background: "var(--tag-bg)",
-                          color: "var(--text-secondary)",
-                        }}
+                        className="text-lg font-bold"
+                        style={{ color: langColor(repo.language) }}
                       >
-                        <span
-                          className="w-2 h-2 rounded-full"
-                          style={{ background: langColor(repo.language) }}
-                        />
-                        {repo.language ?? "Other"}
-                      </span>
-                      <span className="flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
-                        <Star size={12} />
-                        {repo.stargazers_count}
+                        {repo.name.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <span className="flex items-center gap-1 text-[11px]" style={{ color: "var(--text-muted)" }}>
-                      {fmtDate(repo.updated_at)}
-                      <ExternalLink size={11} className="opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="min-w-0">
+                      <h3
+                        className="font-medium truncate hover:underline decoration-teal-500 underline-offset-4"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {repo.name}
+                      </h3>
+                      <p
+                        className="text-sm line-clamp-1"
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        {repo.description || "No description provided."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="hidden sm:flex gap-2 flex-wrap items-center justify-end">
+                    <span
+                      className="chip text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1.5"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      <span
+                        className="w-2 h-2 rounded-full shrink-0"
+                        style={{ background: langColor(repo.language) }}
+                      />
+                      {repo.language ?? "Other"}
                     </span>
+                    <span
+                      className="flex items-center gap-1 text-xs"
+                      style={{ color: "var(--text-muted)" }}
+                    >
+                      <Star size={12} />
+                      {repo.stargazers_count}
+                    </span>
+                    <ExternalLink
+                      size={13}
+                      className="opacity-40 group-hover:opacity-100 transition-opacity"
+                      style={{ color: "var(--accent)" }}
+                    />
                   </div>
                 </motion.a>
               ))}
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <motion.div
+                  className="flex flex-wrap items-center justify-center gap-3 px-4 py-4 mt-2 rounded-lg"
+                  style={{ borderTop: "1px solid var(--divider)" }}
+                >
+                  <button
+                    onClick={() => setPage(safePage - 1)}
+                    disabled={safePage === 1}
+                    className="btn-secondary flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <ArrowLeft size={14} />
+                    Prev
+                  </button>
+
+                  <div className="flex items-center gap-2 flex-wrap justify-center">
+                    <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+                      Showing{" "}
+                      <span className="font-medium" style={{ color: "var(--text-primary)" }}>
+                        {(safePage - 1) * REPOS_PER_PAGE + 1}–
+                        {Math.min(safePage * REPOS_PER_PAGE, filtered.length)}
+                      </span>{" "}
+                      of {filtered.length}
+                    </span>
+                    {[...Array(totalPages)].map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setPage(i + 1)}
+                        className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors ${
+                          safePage === i + 1
+                            ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
+                            : "nav-item"
+                        }`}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setPage(safePage + 1)}
+                    disabled={safePage === totalPages}
+                    className="btn-secondary flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Next
+                    <ChevronRight size={14} />
+                  </button>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </div>
-
-        {/* Pagination */}
-        {repos !== null && filtered.length > REPOS_PER_PAGE && (
-          <div
-            className="flex flex-wrap items-center justify-center gap-3 px-4 py-4 mx-4 sm:mx-5 mb-2 rounded-lg"
-            style={{ borderTop: "1px solid var(--divider)" }}
-          >
-            <button
-              onClick={() => setPage(safePage - 1)}
-              disabled={safePage === 1}
-              className="btn-secondary flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ArrowLeft size={14} />
-              Prev
-            </button>
-
-            <div className="flex items-center gap-2 flex-wrap justify-center">
-              <span className="text-xs" style={{ color: "var(--text-muted)" }}>
-                Showing{" "}
-                <span className="font-medium" style={{ color: "var(--text-primary)" }}>
-                  {(safePage - 1) * REPOS_PER_PAGE + 1}–
-                  {Math.min(safePage * REPOS_PER_PAGE, filtered.length)}
-                </span>{" "}
-                of {filtered.length}
-              </span>
-              {[...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPage(i + 1)}
-                  className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors ${
-                    safePage === i + 1
-                      ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
-                      : "nav-item"
-                  }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setPage(safePage + 1)}
-              disabled={safePage === totalPages}
-              className="btn-secondary flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Next
-              <ChevronRight size={14} />
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );
