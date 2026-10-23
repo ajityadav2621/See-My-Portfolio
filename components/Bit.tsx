@@ -24,16 +24,25 @@ interface BitProps {
   onOpen?: () => void;
   svgSize?: number;
   className?: string;
+  compact?: boolean;
+  alwaysAwake?: boolean;
 }
 
-export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, className = "" }) => {
+export const Bit: React.FC<BitProps> = ({
+  open = false,
+  onOpen,
+  svgSize = 48,
+  className = "",
+  compact = false,
+  alwaysAwake: awakeDefault = false,
+}) => {
   const reduced = useReducedMotion();
   const rootRef = useRef<HTMLButtonElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const eyesRef = useRef<SVGGElement | null>(null);
   const gradientId = useId().replace(/[^a-zA-Z0-9]/g, "");
 
-  const [awake, setAwake] = useState(false);
+  const [awake, setAwake] = useState(awakeDefault);
   const [wiggle, setWiggle] = useState(false);
   const [blinked, setBlinked] = useState(false);
   const [widened, setWidened] = useState(false);
@@ -49,8 +58,16 @@ export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, cl
   const cur = useRef({ rotX: 0, rotY: 0, bx: 0, ex: 0, ey: 0 });
   const openRef = useRef(open);
   openRef.current = open;
+  const alwaysAwakeRef = useRef(awakeDefault);
+  alwaysAwakeRef.current = awakeDefault;
+
+  const isAwake = awakeDefault || awake;
 
   const wake = () => {
+    if (alwaysAwakeRef.current) {
+      if (!awake) setAwake(true);
+      return;
+    }
     if (sleepTimer.current) {
       window.clearTimeout(sleepTimer.current);
       sleepTimer.current = null;
@@ -59,6 +76,7 @@ export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, cl
   };
 
   const startSleep = () => {
+    if (alwaysAwakeRef.current) return;
     if (sleepTimer.current) window.clearTimeout(sleepTimer.current);
     sleepTimer.current = window.setTimeout(() => setAwake(false), 180);
   };
@@ -68,6 +86,7 @@ export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, cl
   };
 
   useEffect(() => {
+    if (alwaysAwakeRef.current) return;
     if (open) {
       wake();
     } else {
@@ -156,8 +175,8 @@ export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, cl
     wiggleTimer.current = window.setTimeout(() => setWiggle(false), 520);
   };
 
-  const eyeScaleY = !awake ? 0.08 : blinked ? 0.1 : widened ? 1.2 : 1;
-  const eyeScaleX = awake && widened ? 1.25 : 1;
+  const eyeScaleY = !isAwake ? 0.08 : blinked ? 0.1 : widened ? 1.2 : 1;
+  const eyeScaleX = isAwake && widened ? 1.25 : 1;
 
   return (
     <button
@@ -177,14 +196,14 @@ export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, cl
       }}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
-      className={`bit-root inline-flex items-center justify-center px-2 py-1 rounded-xl ${className}`}
+      className={`bit-root inline-flex items-center justify-center ${compact ? "px-1 py-0.5" : "px-2 py-1"} rounded-xl ${className}`}
     >
       <div ref={bodyRef} className="bit-body">
         <svg
           viewBox="0 0 48 48"
           width={svgSize}
           height={svgSize}
-          className={`bit-face ${awake ? "bit-face-awake" : ""} ${wiggle ? "bit-wiggle" : ""}`}
+          className={`bit-face ${isAwake ? "bit-face-awake" : ""} ${wiggle ? "bit-wiggle" : ""}`}
           aria-hidden
         >
           <defs>
@@ -216,10 +235,12 @@ export const Bit: React.FC<BitProps> = ({ open = false, onOpen, svgSize = 48, cl
           </g>
         </svg>
       </div>
-      <span className={`bit-zz ${awake ? "bit-zz-hidden" : ""}`} aria-hidden>
-        <span className="bit-z bit-z1">z</span>
-        <span className="bit-z bit-z2">Z</span>
-      </span>
+      {!compact && !awakeDefault && (
+        <span className={`bit-zz ${awake ? "bit-zz-hidden" : ""}`} aria-hidden>
+          <span className="bit-z bit-z1">z</span>
+          <span className="bit-z bit-z2">Z</span>
+        </span>
+      )}
     </button>
   );
 };

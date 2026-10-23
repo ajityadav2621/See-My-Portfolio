@@ -125,9 +125,9 @@ const ProjectsSection: React.FC = () => {
   return (
     <section id="projects" className="relative z-10 min-h-screen p-4 md:p-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Sidebar */}
+        {/* Sidebar — desktop */}
         <aside
-          className="md:col-span-1 panel rounded-xl p-4 md:sticky md:top-28 self-start"
+          className="hidden md:block md:col-span-1 panel rounded-xl p-4 md:sticky md:top-28 self-start"
           style={{ color: "var(--text-primary)" }}
         >
           <div className="mb-6">
@@ -169,6 +169,44 @@ const ProjectsSection: React.FC = () => {
 
         {/* Main Content */}
         <div className="md:col-span-3 panel-gradient rounded-xl">
+          {/* Mobile header — heading + filter chips inside the same card */}
+          <div className="md:hidden p-4 pb-3" style={{ borderBottom: "1px solid var(--divider)" }}>
+            <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+              Project Repo&apos;s
+            </h2>
+            <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
+              {failed
+                ? "Live fetch unavailable — cached repos shown"
+                : repos
+                  ? `Live · github.com/${GITHUB_USER}`
+                  : "Loading live repositories…"}
+            </p>
+            <div className="flex gap-2 overflow-x-auto no-visible-scrollbar mt-4">
+              {["All", ...languages].map((category) => (
+                <motion.button
+                  key={category}
+                  onClick={() => selectLang(category)}
+                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                    activeLang === category
+                      ? "bg-gradient-to-r from-teal-500 to-teal-700 text-white"
+                      : "chip"
+                  }`}
+                  whileTap={{ scale: 0.96 }}
+                >
+                  {category}
+                </motion.button>
+              ))}
+            </div>
+            <a
+              href={`https://github.com/${GITHUB_USER}?tab=repositories`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 text-xs link-muted"
+            >
+              <Github size={14} />
+              All repos on GitHub
+            </a>
+          </div>
           {repos === null ? (
             <div className="p-4 space-y-2">
               {[...Array(6)].map((_, i) => (

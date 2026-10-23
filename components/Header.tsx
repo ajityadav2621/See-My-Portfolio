@@ -281,7 +281,7 @@ const Header = () => {
         opacity: showHeader ? 1 : 0,
       }}
       transition={{ duration: 0.3 }}
-      className="fixed top-6 left-0 w-full z-50"
+      className="fixed top-3 sm:top-6 left-0 w-full z-50"
     >
       {/* Desktop Header — pill + theme button side by side */}
       <div className="hidden md:flex items-center justify-center gap-3 px-4 md:px-6">
@@ -359,53 +359,54 @@ const Header = () => {
             </div>
           </div>
 
-          <Bit open={chatOpen} onOpen={() => setChatOpen(true)} svgSize={46} className="mr-1 self-center" />
+          <Bit open={chatOpen} onOpen={() => setChatOpen(true)} svgSize={46} className="mr-1 self-center" alwaysAwake />
       </div>
 
       {/* Mobile Header */}
-      <div className="md:hidden max-w-5xl mx-auto px-3">
+      <div className="md:hidden px-3 sm:px-4">
         <div
-          className="max-w-4xl mt-2 overflow-hidden mx-auto rounded-2xl transition-all duration-300"
+          className="mt-2 overflow-hidden rounded-2xl transition-all duration-300"
           style={{
             backdropFilter: "blur(20px)",
             border: "1px solid var(--border-color)",
             background: "var(--bg-header)",
           }}
         >
-          <div className="flex items-center justify-between h-16">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center space-x-2"
-            >
-              <LogoMark />
-              <div
-                className="text-xl font-semibold"
-                style={{ color: "var(--text-primary)" }}
+            <div className="flex items-center justify-between gap-2 h-14 sm:h-16 px-2.5 sm:px-3">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center space-x-2 min-w-0"
               >
-                AlexAjit
-              </div>
-            </motion.div>
+                <LogoMark />
+                <div
+                  className="text-lg sm:text-xl font-semibold truncate"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  AlexAjit
+                </div>
+              </motion.div>
 
-            <div className="flex items-center gap-3">
-              <Bit open={chatOpen} onOpen={() => setChatOpen(true)} svgSize={30} />
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="focus:outline-none"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </motion.button>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Bit open={chatOpen} onOpen={() => setChatOpen(true)} svgSize={30} compact alwaysAwake />
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="focus:outline-none p-1.5 -mr-1.5"
+                  style={{ color: "var(--text-secondary)" }}
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                >
+                  {mobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </motion.button>
+              </div>
             </div>
-          </div>
         </div>
       </div>
 
