@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Download, ExternalLink, FileText, Share2, X } from "lucide-react";
@@ -86,7 +86,7 @@ const HeroSection = () => {
       id="home"
       className="relative min-h-screen flex flex-col justify-center items-center text-center"
     >
-      {/* ── Ambient background: drifting aurora orbs + panning grid, fading into the top of the projects section below ── */}
+      {/* -- Ambient background: drifting aurora orbs + panning grid, fading into the top of the projects section below -- */}
       <div
         className="absolute inset-x-0 top-0 h-[calc(100%+10rem)] pointer-events-none"
         style={{
@@ -200,7 +200,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <button
             onClick={() => setShowResume(true)}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-xl py-3 px-7 font-medium hover:opacity-90 hover:shadow-[0_0_30px_rgba(20,184,166,0.35)] transition-all duration-300"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg py-3 px-7 font-medium hover:opacity-90 hover:shadow-[0_0_30px_rgba(20,184,166,0.35)] transition-all duration-300"
           >
             <FileText size={18} />
             View Resume
@@ -209,7 +209,7 @@ const HeroSection = () => {
             href="https://github.com/ajityadav2621"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary inline-flex items-center gap-2 rounded-xl py-3 px-7 font-medium"
+            className="btn-secondary inline-flex items-center gap-2 rounded-lg py-3 px-7 font-medium"
           >
             <ExternalLink size={18} />
             GitHub
@@ -232,7 +232,7 @@ const HeroSection = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl h-[90vh] bg-white rounded-xl shadow-2xl overflow-hidden"
+              className="relative w-full max-w-5xl h-[90vh] bg-white rounded-lg shadow-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}

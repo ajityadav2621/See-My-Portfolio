@@ -20,7 +20,7 @@
 
 //   return (
 //     <section className="py-12 px-4 md:px-8">
-//       <div className="max-w-4xl mx-auto p-6 rounded-2xl bg-black border border-gray-800">
+//       <div className="max-w-4xl mx-auto p-6 rounded-xl bg-black border border-gray-800">
 //         {questions.map((question) => (
 //           <QuestionItem key={question.id} question={question} />
 //         ))}

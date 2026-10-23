@@ -221,7 +221,7 @@ const CertificationsSection: React.FC = () => {
       className="relative z-10 min-h-screen p-4 md:p-6"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="panel-gradient rounded-xl">
+        <div className="panel-gradient rounded-lg">
           {/* Header with category buttons */}
           <div className="p-4 flex flex-wrap items-center justify-between" style={{ borderBottom: "1px solid var(--panel-border)" }}>
             <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Certifications</h2>

@@ -196,7 +196,7 @@ export const Bit: React.FC<BitProps> = ({
       }}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
-      className={`bit-root inline-flex items-center justify-center ${compact ? "px-1 py-0.5" : "px-2 py-1"} rounded-xl ${className}`}
+      className={`bit-root inline-flex items-center justify-center ${compact ? "px-1 py-0.5" : "px-2 py-1"} rounded-lg ${className}`}
     >
       <div ref={bodyRef} className="bit-body">
         <svg

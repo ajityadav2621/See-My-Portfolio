@@ -36,7 +36,7 @@
 //     >
 //       {/* Desktop Header */}
 //       <div
-//         className="hidden sm:block container max-w-4xl mx-auto px-4 md:px-6 sm:px-6 sm:py-1 rounded-2xl transition-all duration-300"
+//         className="hidden sm:block container max-w-4xl mx-auto px-4 md:px-6 sm:px-6 sm:py-1 rounded-xl transition-all duration-300"
 //         style={{
 //           backdropFilter: "blur(10px)",
 //           border: "1px solid var(--border-color)",
@@ -96,7 +96,7 @@
 
 //             {/* Combined: Theme Toggle + Book a Meeting */}
 //             <div
-//               className="flex items-center rounded-xl overflow-hidden"
+//               className="flex items-center rounded-lg overflow-hidden"
 //               style={{ border: "1px solid var(--border-color)" }}
 //             >
 //               {/* Theme toggle half */}
@@ -133,7 +133,7 @@
 //       {/* Mobile Header */}
 //       <div className="md:hidden container max-w-5xl mx-auto px-8">
 //         <div
-//           className="container max-w-4xl mt-2 overflow-hidden mx-auto px-8 md:px-6 rounded-2xl transition-all duration-300"
+//           className="container max-w-4xl mt-2 overflow-hidden mx-auto px-8 md:px-6 rounded-xl transition-all duration-300"
 //           style={{
 //             backdropFilter: "blur(20px)",
 //             border: "1px solid var(--border-color)",
@@ -194,7 +194,7 @@
 //               animate={{ opacity: 1, y: 0 }}
 //               exit={{ opacity: 0, y: -20 }}
 //               transition={{ duration: 0.3 }}
-//               className="rounded-2xl mt-2 overflow-hidden"
+//               className="rounded-xl mt-2 overflow-hidden"
 //               style={{
 //                 backdropFilter: "blur(10px)",
 //                 background: "var(--bg-header)",
@@ -287,7 +287,7 @@ const Header = () => {
       <div className="hidden md:flex items-center justify-center gap-3 px-4 md:px-6">
       {/* Desktop pill */}
       <div
-        className="flex-1 max-w-4xl rounded-2xl transition-all duration-300"
+        className="flex-1 max-w-4xl rounded-lg transition-all duration-300"
           style={{
             backdropFilter: "blur(10px)",
             border: "1px solid var(--border-color)",
@@ -342,7 +342,7 @@ const Header = () => {
                 href="https://calendly.com/ajityadav-dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center rounded-xl py-2 px-5 transition-all duration-300"
+                className="flex items-center justify-center rounded-lg py-2 px-5 transition-all duration-300"
                 style={{
                   background: "var(--btn-book-bg)",
                   color: "var(--btn-book-text)",
@@ -365,7 +365,7 @@ const Header = () => {
       {/* Mobile Header */}
       <div className="md:hidden px-3 sm:px-4">
         <div
-          className="mt-2 overflow-hidden rounded-2xl transition-all duration-300"
+          className="mt-2 overflow-hidden rounded-lg transition-all duration-300"
           style={{
             backdropFilter: "blur(20px)",
             border: "1px solid var(--border-color)",
@@ -419,7 +419,7 @@ const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="rounded-2xl mt-2 overflow-hidden"
+              className="rounded-lg mt-2 overflow-hidden"
               style={{
                 backdropFilter: "blur(10px)",
                 background: "var(--bg-header)",

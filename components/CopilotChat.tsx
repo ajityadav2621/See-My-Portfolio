@@ -175,7 +175,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
               style={{ borderBottom: "1px solid var(--feedback-border)" }}
             >
               <span
-                className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
                 style={{
                   background: "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(20,184,166,0.05))",
                   border: "1px solid rgba(20,184,166,0.3)",
@@ -228,7 +228,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
                       <button
                         key={s}
                         onClick={() => send(s)}
-                        className="text-xs text-left px-3.5 py-2.5 rounded-xl transition-colors duration-200 flex items-center gap-2"
+                        className="text-xs text-left px-3.5 py-2.5 rounded-lg transition-colors duration-200 flex items-center gap-2"
                         style={{
                           background: "var(--input-bg)",
                           border: "1px solid var(--input-border)",
@@ -261,7 +261,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
                           <MascotIcon className="w-4 h-4 shrink-0" />
                         </span>
                         <div
-                          className="flex items-center gap-1 rounded-2xl px-3.5 py-2.5"
+                          className="flex items-center gap-1 rounded-xl px-3.5 py-2.5"
                           style={{ background: "var(--input-bg)", border: "1px solid var(--input-border)" }}
                         >
                           {[0, 1, 2].map((d) => (
@@ -292,7 +292,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
                           </span>
                         )}
                         <div
-                          className="max-w-[80%] text-sm leading-snug rounded-2xl px-3.5 py-2.5 space-y-2"
+                          className="max-w-[80%] text-sm leading-snug rounded-xl px-3.5 py-2.5 space-y-2"
                           style={
                             m.from === "user"
                               ? {
@@ -344,7 +344,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute bottom-full mb-2 left-3 right-3 z-20 rounded-xl overflow-hidden shadow-2xl"
+                      className="absolute bottom-full mb-2 left-3 right-3 z-20 rounded-lg overflow-hidden shadow-2xl"
                       style={{
                         background: "var(--feedback-bg)",
                         border: "1px solid var(--feedback-border)",
@@ -426,7 +426,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
                   e.preventDefault();
                   send();
                 }}
-                className="rounded-2xl p-3"
+                className="rounded-xl p-3"
                 style={{
                   background: "var(--input-bg)",
                   border: "1px solid var(--input-border)",
@@ -505,7 +505,7 @@ const CopilotChat: React.FC<Props> = ({ open, onClose }) => {
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     type="submit"
-                    className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
                     style={{
                       background: input.trim()
                         ? "linear-gradient(135deg, #14b8a6, #0f766e)"

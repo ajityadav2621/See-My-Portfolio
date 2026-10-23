@@ -128,7 +128,7 @@ const FeedbackWidget = () => {
               exit={{ opacity: 0, y: 40, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 350, damping: 28 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl"
+              className="w-full max-w-sm rounded-xl overflow-hidden shadow-2xl"
               style={{
                 background: "var(--feedback-bg)",
                 border: "1px solid var(--feedback-border)",
@@ -190,7 +190,7 @@ const FeedbackWidget = () => {
                     }}
                   >
                     <span
-                      className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+                      className="flex items-center justify-center w-10 h-10 rounded-lg shrink-0"
                       style={{ background: "rgba(20,184,166,0.15)" }}
                     >
                       <Linkedin className="w-5 h-5" style={{ color: "#14b8a6" }} />
@@ -333,7 +333,7 @@ const FeedbackWidget = () => {
                         placeholder="Anything else? (optional)"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        className="w-full text-sm rounded-xl px-3.5 py-3 resize-none outline-none transition-all duration-200"
+                        className="w-full text-sm rounded-lg px-3.5 py-3 resize-none outline-none transition-all duration-200"
                         style={{
                           background: "var(--input-bg)",
                           border: "1px solid var(--input-border)",
@@ -357,7 +357,7 @@ const FeedbackWidget = () => {
                       whileTap={canSubmit ? { scale: 0.97 } : {}}
                       onClick={handleSubmit}
                       disabled={!canSubmit}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
                       style={{
                         background: canSubmit
                           ? "linear-gradient(135deg, #14b8a6, #0f766e)"

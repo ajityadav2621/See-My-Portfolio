@@ -127,7 +127,7 @@ const ProjectsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar — desktop */}
         <aside
-          className="hidden md:block md:col-span-1 panel rounded-xl p-4 md:sticky md:top-28 self-start"
+          className="hidden md:block md:col-span-1 panel rounded-lg p-4 md:sticky md:top-28 self-start"
           style={{ color: "var(--text-primary)" }}
         >
           <div className="mb-6">
@@ -168,7 +168,7 @@ const ProjectsSection: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <div className="md:col-span-3 panel-gradient rounded-xl">
+        <div className="md:col-span-3 panel-gradient rounded-lg">
           {/* Mobile header — heading + filter chips inside the same card */}
           <div className="md:hidden p-4 pb-3" style={{ borderBottom: "1px solid var(--divider)" }}>
             <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>

@@ -118,7 +118,7 @@
 //           <span style={{ fontSize: 10, color: "#333" }}>Click any node</span>
 //         </div>
 
-//         <div className="w-full rounded-xl overflow-hidden" style={{ background: "#0f0f0f" }}>
+//         <div className="w-full rounded-lg overflow-hidden" style={{ background: "#0f0f0f" }}>
 //           <svg
 //             viewBox={`0 0 ${VW} ${VH}`}
 //             preserveAspectRatio="xMidYMid meet"

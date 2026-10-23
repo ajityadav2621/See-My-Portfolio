@@ -47,7 +47,7 @@ export default function SharedResumePage() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl p-8 space-y-5"
+        className="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl p-8 space-y-5"
       >
         <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-r from-teal-500 to-teal-700 flex items-center justify-center">
           {status === "downloading" ? (
